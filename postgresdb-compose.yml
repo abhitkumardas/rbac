@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test1234
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5432:5432'
+    networks:
+      rbac-net:
+        aliases:
+          - database.rbac-net.local.vpc
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+#  pgadmin:
+#    container_name: pgadmin_container
+#    image: dpage/pgadmin4
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+#      PGADMIN_CONFIG_SERVER_MODE: 'False'
+#    volumes:
+#      - pgadmin:/var/lib/pgadmin
+#
+#    ports:
+#      - "${PGADMIN_PORT:-5050}:80"
+#    networks:
+#      - rbac-net
+#    restart: unless-stopped
+
+networks:
+  rbac-net:
+
+volumes:
+  postgres:
+  pgadmin:
